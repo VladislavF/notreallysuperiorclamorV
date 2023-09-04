@@ -105,7 +105,6 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.diff_gain = diff_gain = 1.25
         self.decim = decim = 2**15
         self.dc_corr = dc_corr = dc_offset
-        self.clip_level = clip_level = 0.5
         self.bpf_taps_sca = bpf_taps_sca = firdes.band_pass(1.0, usrp_rate, 67e3, 67e3+5e3, 1000, window.WIN_HAMMING, 6.76)
         self.bbrail = bbrail = (1-pilot_gain-rds_gain)
         self.bb_clip_taps = bb_clip_taps = firdes.low_pass(1, usrp_rate, 53e3,2e3, window.WIN_HAMMING, 6.76)
@@ -532,9 +531,6 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.fft_filter_xxx_0.declare_sample_delay(0)
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bf([-1, 1], 1)
         self.digital_chunks_to_symbols_xx_0.set_max_output_buffer(4096)
-        self._clip_level_range = Range(0, 1, 0.001, 0.5, 200)
-        self._clip_level_win = RangeWidget(self._clip_level_range, self.set_clip_level, "AF Clip Level", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._clip_level_win)
         self.blocks_wavfile_source_0_1_0_0_3 = blocks.wavfile_source('flag8_1.wav', True)
         self.blocks_wavfile_source_0_1_0_0_2 = blocks.wavfile_source('flag8_4.wav', True)
         self.blocks_wavfile_source_0_1_0_0_1 = blocks.wavfile_source('flag8_2.wav', True)
@@ -565,7 +561,7 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.blocks_multiply_const_xx_3 = blocks.multiply_const_ff(0.5, 1)
         self.blocks_multiply_const_xx_2 = blocks.multiply_const_ff(1/decim, 1)
         self.blocks_multiply_const_xx_1 = blocks.multiply_const_cc(ana_gain, 1)
-        self.blocks_multiply_const_xx_0_0_0 = blocks.multiply_const_ff(1, 1)
+        self.blocks_multiply_const_xx_0_0_0 = blocks.multiply_const_ff(0.707, 1)
         self.blocks_multiply_const_xx_0_0 = blocks.multiply_const_ff(audio_gain, 1)
         self.blocks_multiply_const_xx_0 = blocks.multiply_const_ff(audio_gain, 1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(nrsc_gain)
@@ -574,6 +570,8 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.blocks_keep_one_in_n_0 = blocks.keep_one_in_n(gr.sizeof_float*1, 1)
         self.blocks_keep_m_in_n_0 = blocks.keep_m_in_n(gr.sizeof_gr_complex, 2160, 4096, 0)
         self.blocks_integrate_xx_0 = blocks.integrate_ff(int(decim), 1)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, 'tx_500k.raw', False)
+        self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_divide_xx_0 = blocks.divide_ff(1)
         self.blocks_delay_2_0 = blocks.delay(gr.sizeof_float*2, (int(44100*ana_delay)))
         self.blocks_delay_0 = blocks.delay(gr.sizeof_float*1, ((len(pilot_taps) - 1) // 2))
@@ -695,12 +693,12 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_vector_to_streams_0_0, 0), (self.fft_filter_xxx_0, 0))
         self.connect((self.blocks_vector_to_streams_0_0, 1), (self.fft_filter_xxx_0_0, 0))
-        self.connect((self.blocks_vector_to_streams_0_1_0_0, 0), (self.blocks_add_xx_1_0_1, 0))
         self.connect((self.blocks_vector_to_streams_0_1_0_0, 1), (self.blocks_add_xx_1_0_1, 1))
+        self.connect((self.blocks_vector_to_streams_0_1_0_0, 0), (self.blocks_add_xx_1_0_1, 0))
         self.connect((self.blocks_wavfile_source_0_1, 0), (self.fft_filter_xxx_0_1, 0))
         self.connect((self.blocks_wavfile_source_0_1_0, 0), (self.nrsc5_hdc_encoder_0_1, 0))
-        self.connect((self.blocks_wavfile_source_0_1_0_0, 1), (self.blocks_add_xx_1_0_0, 1))
         self.connect((self.blocks_wavfile_source_0_1_0_0, 0), (self.blocks_add_xx_1_0_0, 0))
+        self.connect((self.blocks_wavfile_source_0_1_0_0, 1), (self.blocks_add_xx_1_0_0, 1))
         self.connect((self.blocks_wavfile_source_0_1_0_0_0, 0), (self.nrsc5_hdc_encoder_0_0_0, 0))
         self.connect((self.blocks_wavfile_source_0_1_0_0_1, 0), (self.nrsc5_hdc_encoder_0_1_0, 0))
         self.connect((self.blocks_wavfile_source_0_1_0_0_2, 0), (self.nrsc5_hdc_encoder_0_1_0_0, 0))
@@ -724,6 +722,7 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.connect((self.gr_add_xx_1, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.gr_add_xx_1, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.gr_diff_encoder_bb_0, 0), (self.gr_map_bb_1, 0))
+        self.connect((self.gr_frequency_modulator_fc_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.gr_frequency_modulator_fc_0, 0), (self.mmse_resampler_xx_0_0_1, 0))
         self.connect((self.gr_map_bb_1, 0), (self.gr_unpack_k_bits_bb_0, 0))
         self.connect((self.gr_multiply_xx_0, 0), (self.mmse_resampler_xx_0_0_2, 0))
@@ -992,12 +991,6 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
     def set_dc_corr(self, dc_corr):
         self.dc_corr = dc_corr
         self.blocks_add_const_vxx_0.set_k(self.dc_corr)
-
-    def get_clip_level(self):
-        return self.clip_level
-
-    def set_clip_level(self, clip_level):
-        self.clip_level = clip_level
 
     def get_bpf_taps_sca(self):
         return self.bpf_taps_sca

@@ -206,27 +206,6 @@ blocks:
     coordinate: [2432, 476.0]
     rotation: 0
     state: true
-- name: clip_level
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: AF Clip Level
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: '0.001'
-    stop: '1'
-    value: '0.5'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1376, 132.0]
-    rotation: 0
-    state: true
 - name: dc_corr
   id: variable_qtgui_range
   parameters:
@@ -1096,6 +1075,24 @@ blocks:
     coordinate: [1640, 1376.0]
     rotation: 0
     state: true
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: tx_500k.raw
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1088, 1100.0]
+    rotation: 0
+    state: true
 - name: blocks_integrate_xx_0
   id: blocks_integrate_xx
   parameters:
@@ -1249,7 +1246,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: '1'
+    const: '0.707'
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -4253,6 +4250,7 @@ connections:
 - [gr_add_xx_1, '0', qtgui_time_sink_x_0_0, '0']
 - [gr_add_xx_1, '0', qtgui_waterfall_sink_x_0, '0']
 - [gr_diff_encoder_bb_0, '0', gr_map_bb_1, '0']
+- [gr_frequency_modulator_fc_0, '0', blocks_file_sink_0, '0']
 - [gr_frequency_modulator_fc_0, '0', mmse_resampler_xx_0_0_1, '0']
 - [gr_map_bb_1, '0', gr_unpack_k_bits_bb_0, '0']
 - [gr_multiply_xx_0, '0', mmse_resampler_xx_0_0_2, '0']

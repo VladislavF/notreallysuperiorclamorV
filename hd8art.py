@@ -13,7 +13,7 @@ import time
 #parser.add_argument("--file-port", type=int, default=52004)
 #args = parser.parse_args()
 
-sendReal = True
+sendReal = False
 hostname = "localhost"
 fakefile = "HD8a.png"
 realfile = "real/HD8a.png"
@@ -43,7 +43,7 @@ while True:
         s.send(command)
         s.close()
         sendReal = True
-        time.sleep(2*60) 
+        time.sleep(5*60) 
     else:
         print("sending real file")
         with open(realfile, "rb") as f:

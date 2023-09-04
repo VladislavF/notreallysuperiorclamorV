@@ -1,0 +1,66 @@
+RDS text (25)
+1. flag{AbolitionOfMan}
+
+HD 8 audio (25)
+2. flag{andrewryan}
+
+HD Station Message (25)
+3. flag{GodsOfTheCopybookHeadings}
+
+PSD Artist on HD programs 2-5 (35)
+4.flag{watch?v=uxVhovaDK1Q}
+
+XOR HEX (Key in Title, Message in Artist) (50)
+5.flag{Moldbug}
+4A63C7DEA2667B3222CDD6A1746702 - Message
+7f4DA1B2C30100 - Key
+
+6. HD6 audio ROT 69 (N=69 indicated by Title and Artist) (60)
+flag{DoNotGoGentleIntoThatGoodNight}
+Flag 6 is UfEfkXfXvekcvZekfKyrkXffuEzxyk
+
+HD 7 title (25)
+7. flag{Nyquist}
+
+Reversed audio across HD 2-5 in sequence made by FCC ID (4213) numbers are indicated by Title (125)
+8. flag{compliancebymuse}
+
+SCA on FM 67kHz SSTV Robot36 (100)
+9. flag{BANNER}
+
+10. Logo Tiles across HD 2-5 making QR code (75)
+10. flag{IAmKenough}
+
+11. text steganography with flag on HD1 logo (steghide text file) (60)
+flag{vladfm.fomitchev.com}
+
+12. black image on HD6 logo contrast enhanced to reveal flag (50)
+12. flag{goodnight}
+
+13. HD6 logo text steganography (openstego) with flag (65)
+flag{coffeewithtoppings}
+
+14. HD7 logo (25)
+flag{Caliola}
+
+15. HD8 logo changed from rickroll QR to QR with AES128 encrypted text: CspPWTYA5xD15CcCO0+FPwvM/D58eDzREtrnXxrKB0I=
+anycrypt.com (75)
+key is in the station slogan (kjhASty34e987o76w6ta&B6g)
+switch interval is 5 minutes
+flag{OnceMoreUntoTheBreach}
+
+16. HD7 audio spectrum paint (50)
+flag{TheDistributist}
+
+17. black pixels representing ascii on bottom of HD8 logo (50)
+17.flag{CSLewis}
+
+18. spectrum paint on analog audio (composite)
+TBD
+
+19. spectrum paint on analog audio (Left)
+TBD
+
+20. spectrum paint on analog audio (Right)
+TBD
+

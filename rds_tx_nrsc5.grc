@@ -1092,7 +1092,7 @@ blocks:
     bus_structure: null
     coordinate: [1088, 1100.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: blocks_integrate_xx_0
   id: blocks_integrate_xx
   parameters:

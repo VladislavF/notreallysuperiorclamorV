@@ -6,7 +6,7 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Rds Tx Nrsc5
-# GNU Radio version: v3.10.5.1-37-ga5a387bf
+# GNU Radio version: v3.10.6.0-49-g32b028be
 
 from packaging.version import Version as StrictVersion
 from PyQt5 import Qt
@@ -99,7 +99,7 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.nrsc_gain = nrsc_gain = 0.0065
         self.maxpsdbuf = maxpsdbuf = 128
         self.lpf_taps = lpf_taps = firdes.low_pass(1.0, tx_rate, 105e3,10e3, window.WIN_HAMMING, 6.76)
-        self.freq = freq = 90.1e6
+        self.freq = freq = 90700000.0
         self.fm_max_dev = fm_max_dev = 75e3
         self.emphasis_clip_taps = emphasis_clip_taps = firdes.low_pass(input_gain, usrp_rate, 15e3,1e3, window.WIN_HAMMING, 6.76)
         self.diff_gain = diff_gain = 1.25
@@ -140,8 +140,8 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self._BB_gain_range = Range(-10, 10, 0.1, bb_gain, 200)
         self._BB_gain_win = RangeWidget(self._BB_gain_range, self.set_BB_gain, "Baseband Gain (dB)", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._BB_gain_win)
-        self.zeromq_sub_source_0_0_0 = zeromq.sub_source(gr.sizeof_float, 2, 'tcp://localhost:2000', 3000, False, (-1), '')
-        self.zeromq_sub_source_0_0 = zeromq.sub_source(gr.sizeof_float, 2, 'tcp://localhost:2000', 3000, False, (-1), '')
+        self.zeromq_sub_source_0_0_0 = zeromq.sub_source(gr.sizeof_float, 2, 'tcp://localhost:2000', 3000, False, (-1), '', False)
+        self.zeromq_sub_source_0_0 = zeromq.sub_source(gr.sizeof_float, 2, 'tcp://localhost:2000', 3000, False, (-1), '', False)
         self.root_raised_cosine_filter_0 = filter.interp_fir_filter_fff(
             160,
             firdes.root_raised_cosine(
@@ -430,7 +430,7 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.osmosdr_sink_0.set_center_freq(freq, 0)
         self.osmosdr_sink_0.set_freq_corr(0, 0)
         self.osmosdr_sink_0.set_gain(14, 0)
-        self.osmosdr_sink_0.set_if_gain(40, 0)
+        self.osmosdr_sink_0.set_if_gain(46, 0)
         self.osmosdr_sink_0.set_bb_gain(20, 0)
         self.osmosdr_sink_0.set_antenna('', 0)
         self.osmosdr_sink_0.set_bandwidth(0, 0)
@@ -691,12 +691,12 @@ class rds_tx_nrsc5(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_keep_m_in_n_0, 0))
         self.connect((self.blocks_vector_to_streams_0_0, 0), (self.fft_filter_xxx_0, 0))
         self.connect((self.blocks_vector_to_streams_0_0, 1), (self.fft_filter_xxx_0_0, 0))
-        self.connect((self.blocks_vector_to_streams_0_1_0_0, 1), (self.blocks_add_xx_1_0_1, 1))
         self.connect((self.blocks_vector_to_streams_0_1_0_0, 0), (self.blocks_add_xx_1_0_1, 0))
+        self.connect((self.blocks_vector_to_streams_0_1_0_0, 1), (self.blocks_add_xx_1_0_1, 1))
         self.connect((self.blocks_wavfile_source_0_1, 0), (self.fft_filter_xxx_0_1, 0))
         self.connect((self.blocks_wavfile_source_0_1_0, 0), (self.nrsc5_hdc_encoder_0_1, 0))
-        self.connect((self.blocks_wavfile_source_0_1_0_0, 0), (self.blocks_add_xx_1_0_0, 0))
         self.connect((self.blocks_wavfile_source_0_1_0_0, 1), (self.blocks_add_xx_1_0_0, 1))
+        self.connect((self.blocks_wavfile_source_0_1_0_0, 0), (self.blocks_add_xx_1_0_0, 0))
         self.connect((self.blocks_wavfile_source_0_1_0_0_0, 0), (self.nrsc5_hdc_encoder_0_0_0, 0))
         self.connect((self.blocks_wavfile_source_0_1_0_0_1, 0), (self.nrsc5_hdc_encoder_0_1_0, 0))
         self.connect((self.blocks_wavfile_source_0_1_0_0_2, 0), (self.nrsc5_hdc_encoder_0_1_0_0, 0))
@@ -1085,8 +1085,6 @@ def argument_parser():
 def main(top_block_cls=rds_tx_nrsc5, options=None):
     if options is None:
         options = argument_parser().parse_args()
-    if gr.enable_realtime_scheduling() != gr.RT_OK:
-        gr.logger("realtime").warning("Error: failed to enable real-time scheduling.")
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

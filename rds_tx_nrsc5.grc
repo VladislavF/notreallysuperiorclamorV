@@ -16,7 +16,7 @@ options:
     output_language: python
     placement: (0,0)
     qt_qss_theme: ''
-    realtime_scheduling: '1'
+    realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
     run_options: prompt
@@ -294,7 +294,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 90.1e6
+    value: '90700000.0'
   states:
     bus_sink: false
     bus_source: false
@@ -650,6 +650,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: audio_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -672,6 +673,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: audio_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -694,6 +696,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: audio_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -716,6 +719,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: audio_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -738,6 +742,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: audio_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -760,6 +765,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: audio_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -782,6 +788,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: audio_rate
+    showports: 'False'
     type: complex
     waveform: analog.GR_COS_WAVE
   states:
@@ -804,6 +811,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: usrp_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -1029,6 +1037,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: '1'
+    showports: 'False'
     type: float
     vlen: '1'
   states:
@@ -1048,6 +1057,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: '1'
+    showports: 'False'
     type: float
     vlen: '2'
   states:
@@ -2305,6 +2315,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: 380e3
+    showports: 'False'
     type: float
     waveform: analog.GR_SIN_WAVE
   states:
@@ -2327,6 +2338,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: usrp_rate
+    showports: 'False'
     type: float
     waveform: analog.GR_COS_WAVE
   states:
@@ -3427,7 +3439,7 @@ blocks:
     gain7: '10'
     gain8: '10'
     gain9: '10'
-    if_gain0: '40'
+    if_gain0: '46'
     if_gain1: '20'
     if_gain10: '20'
     if_gain11: '20'
@@ -4104,6 +4116,7 @@ blocks:
     address: tcp://localhost:2000
     affinity: ''
     alias: ''
+    bind: 'False'
     comment: ''
     hwm: '-1'
     key: ''
@@ -4126,6 +4139,7 @@ blocks:
     address: tcp://localhost:2000
     affinity: ''
     alias: ''
+    bind: 'False'
     comment: ''
     hwm: '-1'
     key: ''
@@ -4337,4 +4351,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: v3.10.5.1-37-ga5a387bf
+  grc_version: v3.10.6.0-49-g32b028be
